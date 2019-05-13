@@ -1,0 +1,6 @@
+framework module Pods_Stadtfalke {
+  umbrella header "Pods-Stadtfalke-umbrella.h"
+
+  export *
+  module * { export * }
+}
