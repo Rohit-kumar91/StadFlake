@@ -144,7 +144,7 @@ extension LocationsListViewController : UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCellID") as! PostTableViewCell
         let dict = locationArray[indexPath.row]
         
-        cell.iconImageView.sd_setImage(with: URL.init(string: "https://www.test-it.eu/\(dict.validatedValue("loc_logo", expected: "" as AnyObject) as! String)"), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
+        cell.iconImageView.sd_setImage(with: URL.init(string: "https://www.test-it.eu/\(dict.validatedValue("loc_logo", expected: "" as AnyObject) as! String)"), placeholderImage: #imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
         cell.postTitleLabel.text = dict.validatedValue("title", expected: "" as AnyObject) as! String
         cell.postSubTitleLabel.text = dict.validatedValue("loc_name", expected: "" as AnyObject) as! String
         cell.distanceLabel.text = dict.validatedValue("distance", expected: "" as AnyObject) as! String

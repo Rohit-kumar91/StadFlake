@@ -140,7 +140,7 @@ extension FAQQuesViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FAQTableViewCell") as! FAQTableViewCell
         
-        cell.quesAnsLabel.text =  "Q\(indexPath.row + 1). " + list[indexPath.row]["question"].stringValue
+        cell.quesAnsLabel.text =  "\(indexPath.row + 1). " + list[indexPath.row]["question"].stringValue
         
         cell.answerLabel.text = list[indexPath.row]["answer"].stringValue
         return cell

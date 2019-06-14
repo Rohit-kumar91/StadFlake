@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 
 class FilterViewController: UIViewController {
-
+    
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var filterTableView: UITableView!
     
@@ -18,6 +18,8 @@ class FilterViewController: UIViewController {
     let distanceFilter = JSON([["name" : "aufsteigend", "isSelected" : false, "id": 1],["name" : "absteigend", "isSelected" : false, "id": 2]]).arrayValue
     let categoryFilter = JSON([["name" : "alle", "isSelected" : true, "id": 0], ["name" : "geöffnet", "isSelected" : false, "id": 1]]).arrayValue
     var otherFilterValue  = [[JSON]]()
+    var isLocationFilter = Bool()
+    var categoryName = "ALLE"
     
     
     override func viewDidLoad() {
@@ -28,23 +30,31 @@ class FilterViewController: UIViewController {
     }
     
     @IBAction func filterbtnACTION(_ sender: UIButton) {
+        
+        
+        
+        Singleton.instance.refresh = true
         Singleton.instance.reloadCheck = true
-        self.dismiss(animated: true, completion: nil)
-    }
-
-    // MARK:- IBAction methods
-    @IBAction func cancelBtnAction(_ sender: UIButton) {
-        Singleton.instance.reloadCheck = false
-        Singleton.instance.location_open_hours = ""
+        Singleton.instance.filterSelectedValues.removeAll()
+        Singleton.instance.location_open_hours = "0"
         Singleton.instance.distanceFilter = ""
         Singleton.instance.category_id = ""
+        Singleton.instance.reloadIndex = 0
+        categoryName = "ALLE"
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK:- IBAction methods
+    @IBAction func cancelBtnAction(_ sender: UIButton) {
+        Singleton.instance.reloadCheck = true
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func backButtonAction(_ sender: UIButton) {
-      self.dismiss(animated: true, completion: nil)
+        Singleton.instance.categoryflag = true
+        self.dismiss(animated: true, completion: nil)
     }
-   
+    
     @IBAction func radioButton(_ sender: UIButton) {
         
         let section = (sender.tag)/1000;
@@ -55,7 +65,7 @@ class FilterViewController: UIViewController {
             if row == 0 {
                 self.otherFilterValue[section][0]["isSelected"] = true
                 self.otherFilterValue[section][1]["isSelected"] = false
-                 Singleton.instance.distanceFilter =  self.otherFilterValue[section][row]["id"].stringValue
+                Singleton.instance.distanceFilter =  self.otherFilterValue[section][row]["id"].stringValue
             } else {
                 self.otherFilterValue[section][0]["isSelected"] = false
                 self.otherFilterValue[section][1]["isSelected"] = true
@@ -66,6 +76,10 @@ class FilterViewController: UIViewController {
             
             for (index, _) in self.otherFilterValue[section].enumerated() {
                 if index == row {
+                    
+                    print(otherFilterValue[section][index]["name"].stringValue)
+                    
+                    self.categoryName = otherFilterValue[section][index]["name"].stringValue
                     Singleton.instance.reloadIndex = index
                     otherFilterValue[section][index]["isSelected"] = true
                     Singleton.instance.category_id =  self.otherFilterValue[section][index]["id"].stringValue
@@ -88,6 +102,7 @@ class FilterViewController: UIViewController {
             }
         }
         
+        Singleton.instance.filterSelectedValues = self.otherFilterValue
         filterTableView.reloadData()
     }
     
@@ -104,24 +119,127 @@ class FilterViewController: UIViewController {
             if (response != nil) {
                 
                 let responseJSON = JSON(response as Any)
-                
+                print(self.categoryName)
                 var tempArray = [JSON]()
                 for element in responseJSON["data"].arrayValue {
-                    let tempDict = [ "name" : element["name"].stringValue,
-                                     "isSelected" : false,
-                                     "id": element["id"].stringValue
-                        ] as [String : Any]
                     
-                    
-                    tempArray.append(JSON(tempDict))
+                    if element["name"].stringValue == self.categoryName {
+                        Singleton.instance.category_id = element["id"].stringValue
+                        let tempDict = [ "name" : element["name"].stringValue,
+                                         "isSelected" : true,
+                                         "id": element["id"].stringValue
+                            ] as [String : Any]
+                        
+                        tempArray.append(JSON(tempDict))
+                        
+                    } else {
+                        
+                        let tempDict = [ "name" : element["name"].stringValue,
+                                         "isSelected" : false,
+                                         "id": element["id"].stringValue
+                            ] as [String : Any]
+                        
+                        tempArray.append(JSON(tempDict))
+                    }
                 }
                 
+                
+                if self.isLocationFilter {
+                    
+                    if self.categoryName == "ALLE" {
+                        let dict = [
+                            "status" : "",
+                            "updated_at" : "",
+                            "id" : "",
+                            "name" : "Alle",
+                            "created_at" : "",
+                            "isSelected" : true,
+                            
+                            ] as [String : Any]
+                        
+                        let all = JSON(dict)
+                        tempArray.insert(all, at: 0)
+                    } else {
+                        let dict = [
+                            "status" : "",
+                            "updated_at" : "",
+                            "id" : "",
+                            "name" : "Alle",
+                            "created_at" : "",
+                            "isSelected" : false,
+                            
+                            ] as [String : Any]
+                        
+                        let all = JSON(dict)
+                        tempArray.insert(all, at: 0)
+                    }
+                } else {
+                    if self.categoryName == "ALLE" {
+                        let dict = [
+                            "status" : "",
+                            "updated_at" : "",
+                            "id" : "",
+                            "name" : "Alle",
+                            "created_at" : "",
+                            "isSelected" : true,
+                            
+                            ] as [String : Any]
+                        
+                        let all = JSON(dict)
+                        tempArray.insert(all, at: 0)
+                    } else {
+                        let dict = [
+                            "status" : "",
+                            "updated_at" : "",
+                            "id" : "",
+                            "name" : "Alle",
+                            "created_at" : "",
+                            "isSelected" : false,
+                            
+                            ] as [String : Any]
+                        
+                        let all = JSON(dict)
+                        tempArray.insert(all, at: 0)
+                    }
+                }
                 
                 self.otherFilterValue.append(self.distanceFilter)
                 self.otherFilterValue.append(tempArray)
                 self.otherFilterValue.append(self.categoryFilter)
                 
-                print(self.otherFilterValue)
+                
+                for (index, element) in Singleton.instance.filterSelectedValues.enumerated() {
+                    
+                    for (innerIndex, innerElement) in element.enumerated() {
+                        if innerElement["isSelected"] == true {
+                            let name = innerElement["name"].stringValue
+                            
+                            print(name)
+                            for (otherIndex,element) in self.otherFilterValue[index].enumerated() {
+                                if element["name"].stringValue == name {
+                                    self.otherFilterValue[index][otherIndex]["isSelected"] = true
+                                    
+                                    if index == 0 {
+                                        Singleton.instance.distanceFilter =  self.otherFilterValue[index][otherIndex]["id"].stringValue
+                                    }
+                                    
+                                    if index == 1 {
+                                        Singleton.instance.category_id =  self.otherFilterValue[index][otherIndex]["id"].stringValue
+                                    }
+                                    
+                                    if index == 2 {
+                                        Singleton.instance.location_open_hours = self.otherFilterValue[index][otherIndex]["id"].stringValue
+                                    }
+                                } else {
+                                    self.otherFilterValue[index][otherIndex]["isSelected"] = false
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                
+                print("Other Value Indexes",self.otherFilterValue)
                 
                 self.filterTableView.dataSource = self
                 self.filterTableView.reloadData()
@@ -160,7 +278,7 @@ extension FilterViewController: UITableViewDataSource {
             cell.radioButton.setImage(#imageLiteral(resourceName: "radioCheck"), for: .normal)
         } else {
             cell.radioButton.setImage(#imageLiteral(resourceName: "radioUncheck"), for: .normal)
-           
+            
         }
         
         cell.radioButton.tag = indexPath.section * 1000 + indexPath.row;

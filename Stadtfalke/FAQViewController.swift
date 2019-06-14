@@ -73,10 +73,10 @@ extension FAQViewController :UITableViewDataSource, UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "FAQTableViewCell") as! FAQTableViewCell
         if indexPath.row == 0 {
             cell.sepratorView.isHidden = false
-            cell.quesAnsLabel.text = dict.validatedValue("question", expected: "" as AnyObject) as! String
+            cell.quesAnsLabel.text = dict.validatedValue("question", expected: "" as AnyObject) as? String
         }else{
             cell.sepratorView.isHidden = true
-            cell.quesAnsLabel.text = dict.validatedValue("answer", expected: "" as AnyObject) as! String
+            cell.quesAnsLabel.text = dict.validatedValue("answer", expected: "" as AnyObject) as? String
         }
         
         return cell

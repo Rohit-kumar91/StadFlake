@@ -16,7 +16,9 @@ class MenuViewController: UIViewController, MFMailComposeViewControllerDelegate 
 
     let menuArray = ["Partner Login","Specials","Mitteilungen","Die Idee","Locations","Dein Stadtfalke","Impressum","Partner Werden","FAQ"]
     
-    let menu_Array = ["Home","Die Idee","Impressum","Partner Werden","Datenschutz", "FAQ", "Feedback"]
+    let menu_Array = ["Home","Die Idee","Partner Werden","FAQ","Impressum","Datenschutz", "Feedback"]
+    
+    
     
     var dict = [Dictionary<String, AnyObject>]()
     let composeVC = MFMailComposeViewController()
@@ -50,6 +52,7 @@ class MenuViewController: UIViewController, MFMailComposeViewControllerDelegate 
         RPicker.selectOption(title: "Deine Stadt", hideCancel: true, dataArray: optionList, selectedIndex: 0) { (selctedText, atIndex) in
             Singleton.instance.citySlug = Singleton.instance.citiesArray[atIndex]["slug"].stringValue
             //self.callApiToInsertCityID(cityId: Singleton.instance.citiesArray[atIndex]["id"].stringValue)
+            self.topBtn.setTitle(Singleton.instance.citiesArray[atIndex]["slug"].stringValue, for: .normal)
             NotificationCenter.default.post(name: Notification.Name("refreshNotificationData"), object: nil)
 
         }
@@ -111,11 +114,13 @@ extension MenuViewController : UITableViewDelegate, UITableViewDataSource {
 
         case 2:
             
-            let impressumVC = self.storyboard?.instantiateViewController(withIdentifier: "ImpressumViewControllerID") as! ImpressumViewController
-            centeralNavController.setViewControllers([impressumVC], animated: false)
+            let mitteilungenVC = self.storyboard?.instantiateViewController(withIdentifier: "PartnerWerdenViewController") as! PartnerWerdenViewController
+            centeralNavController.setViewControllers([mitteilungenVC], animated: false)
             sideMenuController.closeSlider(.left, animated: true) { (_) in
                 //do nothing
             }
+            
+           
             
 //            USERDEFAULT.setValue("0", forKey: "value")
 //            USERDEFAULT.synchronize()
@@ -131,16 +136,20 @@ extension MenuViewController : UITableViewDelegate, UITableViewDataSource {
 
         case 3:
             
-            ///
-            let mitteilungenVC = self.storyboard?.instantiateViewController(withIdentifier: "PartnerWerdenViewController") as! PartnerWerdenViewController
-            centeralNavController.setViewControllers([mitteilungenVC], animated: false)
+            let faqQuesVC = self.storyboard?.instantiateViewController(withIdentifier: "FAQQuesViewControllerID") as! FAQQuesViewController
+            centeralNavController.setViewControllers([faqQuesVC], animated: false)
             sideMenuController.closeSlider(.left, animated: true) { (_) in
                 //do nothing
             }
+            
+            
             break
         case 4:
-            let dieIdeeVC = self.storyboard?.instantiateViewController(withIdentifier: "DatenschutzViewController") as! DatenschutzViewController
-            centeralNavController.setViewControllers([dieIdeeVC], animated: false)
+            
+            
+            
+            let impressumVC = self.storyboard?.instantiateViewController(withIdentifier: "ImpressumViewControllerID") as! ImpressumViewController
+            centeralNavController.setViewControllers([impressumVC], animated: false)
             sideMenuController.closeSlider(.left, animated: true) { (_) in
                 //do nothing
             }
@@ -148,8 +157,8 @@ extension MenuViewController : UITableViewDelegate, UITableViewDataSource {
 
         case 5:
             
-            let faqQuesVC = self.storyboard?.instantiateViewController(withIdentifier: "FAQQuesViewControllerID") as! FAQQuesViewController
-            centeralNavController.setViewControllers([faqQuesVC], animated: false)
+            let dieIdeeVC = self.storyboard?.instantiateViewController(withIdentifier: "DatenschutzViewController") as! DatenschutzViewController
+            centeralNavController.setViewControllers([dieIdeeVC], animated: false)
             sideMenuController.closeSlider(.left, animated: true) { (_) in
                 //do nothing
             }
@@ -233,7 +242,7 @@ extension MenuViewController : UITableViewDelegate, UITableViewDataSource {
     
     func launchEmail() {
         
-        let emailTitle = "Support Request"
+        let emailTitle = ""
         
         let messageBody = ""
         

@@ -10,10 +10,11 @@ import UIKit
 import SwiftyJSON
 
 class SpecialViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    @IBOutlet weak var topConstant: NSLayoutConstraint!
+    
     //@IBOutlet weak var conatinerView1: UIView!
     @IBOutlet weak var myCollectionView: UICollectionView!
     
+    @IBOutlet weak var searchBarStack: UIStackView!
     @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var navigationTitleLabel: UILabel!
     @IBOutlet weak var notificationButton: UIButton!
@@ -22,6 +23,7 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var descriptionLabel: UILabel!
     
+    @IBOutlet weak var filter: UIButton!
     var postArray = [PageOfferInfo]()
     var list = [Dictionary<String,AnyObject>]()
     var selectedIndex = "0"
@@ -33,14 +35,23 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
     var tempSpecialData = [JSON]()
     var specialResponseData = JSON()
     var search:String=""
-    
+    var hideViews = Bool()
+    var viewDidloadCheck = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let locationsDetailsVC = mainStoryboard.instantiateViewController(withIdentifier: "LocationDetailsViewControllerID") as! LocationDetailsViewController
-      
-        self.navigationController?.pushViewController(locationsDetailsVC, animated: true)
+//        let locationsDetailsVC = mainStoryboard.instantiateViewController(withIdentifier: "LocationDetailsViewControllerID") as! LocationDetailsViewController
+//      
+//        self.navigationController?.pushViewController(locationsDetailsVC, animated: true)
+        
+        
+        print("scrtyui",Singleton.instance.reloadCheck)
+        print("sDrtfghjklj",Singleton.instance.specialViewReloadCheck)
+        if hideViews {
+            hideViews = false
+            hideSearchBar()
+        }
        
         UserDefaults.standard.set(0, forKey: "selectedIndex")
         UserDefaults.standard.synchronize()
@@ -54,11 +65,18 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
         myCollectionView.reloadData()
         Singleton.instance.id = daysArray[0]["id"].stringValue
         
+        
+      
         getSpecials(Singleton.instance.id,
-                    location_open_hours: Singleton.instance.location_open_hours,
-                    distanceFilter: Singleton.instance.distanceFilter,
-                    category_id: Singleton.instance.category_id)
-
+                        location_open_hours: Singleton.instance.location_open_hours,
+                        distanceFilter: Singleton.instance.distanceFilter,
+                        category_id: Singleton.instance.category_id)
+      
+        
+        
+        
+      
+    
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshSpecials(notfication:)), name: NSNotification.Name(rawValue: "refreshNotificationData"), object: nil)
         
         self.specialTableView.rowHeight = UITableViewAutomaticDimension
@@ -76,15 +94,13 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
             menuButton.tag = 2
         }
         
-        
-        if kWindowHeight <= 568 {
-            topConstant.constant = 20
-        }else{
-            topConstant.constant = 1
-        }
     }
     
-    
+    func hideSearchBar() {
+        searchBarStack.isHidden = true
+        filter.isHidden = true
+        notificationButton.isHidden = true
+    }
     
 
     func calculateDaysArray(daysArray: [JSON]) -> [JSON] {
@@ -120,8 +136,12 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("Rohit kumar...")
+        print(Singleton.instance.location_open_hours)
+        print(Singleton.instance.distanceFilter)
+        print(Singleton.instance.category_id)
         
-        if   Singleton.instance.reloadCheck  {
+        if Singleton.instance.reloadCheck  {
             
             Singleton.instance.reloadCheck = false
             getSpecials(Singleton.instance.id,
@@ -130,9 +150,31 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
                         category_id: Singleton.instance.category_id)
         }
         
+        
+        if Singleton.instance.specialViewReloadCheck {
+            Singleton.instance.specialViewReloadCheck = false
+            selectedRow = 0
+            myCollectionView.reloadData()
+            getSpecials(Singleton.instance.id,
+                        location_open_hours: Singleton.instance.location_open_hours,
+                        distanceFilter: Singleton.instance.distanceFilter,
+                        category_id: Singleton.instance.category_id)
+        }
+        
+        
+        
+        
     }
     
     @objc func refresh(sender:AnyObject) {
+        
+        Singleton.instance.refresh = true
+        Singleton.instance.reloadCheck = true
+        Singleton.instance.filterSelectedValues.removeAll()
+        Singleton.instance.location_open_hours = "0"
+        Singleton.instance.distanceFilter = ""
+        Singleton.instance.category_id = ""
+        Singleton.instance.reloadIndex = 0
         
         getSpecials(Singleton.instance.id,
                     location_open_hours: Singleton.instance.location_open_hours,
@@ -147,9 +189,9 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
     @objc func refreshSpecials(notfication: NSNotification) {
         
         getSpecials(Singleton.instance.id,
-                    location_open_hours: Singleton.instance.location_open_hours,
-                    distanceFilter: Singleton.instance.distanceFilter,
-                    category_id: Singleton.instance.category_id)
+                    location_open_hours: "0",
+                    distanceFilter: "",
+                    category_id: "")
         
     }
     
@@ -167,11 +209,15 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
     @IBAction func menuButtonAction(_ sender: UIButton) {
         if sender.tag == 1 {
             menuButton.setImage(#imageLiteral(resourceName: "menu"), for: .normal)
-            Singleton.instance.location_Id = ""
-            getSpecials(Singleton.instance.id,
-                        location_open_hours: Singleton.instance.location_open_hours,
-                        distanceFilter: Singleton.instance.distanceFilter,
-                        category_id: Singleton.instance.category_id)
+//            Singleton.instance.location_Id = ""
+//            getSpecials(Singleton.instance.id,
+//                        location_open_hours: Singleton.instance.location_open_hours,
+//                        distanceFilter: Singleton.instance.distanceFilter,
+//                        category_id: Singleton.instance.category_id)
+            
+            //From Location Special.
+            self.navigationController?.popViewController(animated: true)
+            
         } else {
             self.view.endEditing(true)
             self.toggleSlider()
@@ -203,6 +249,9 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
         selectedRow = indexPath.row
         myCollectionView.reloadData()
         
+        print(Singleton.instance.location_open_hours)
+        print(Singleton.instance.distanceFilter)
+        print(Singleton.instance.category_id)
         getSpecials(daysArray[indexPath.row]["id"].stringValue,
                     location_open_hours: Singleton.instance.location_open_hours,
                     distanceFilter: Singleton.instance.distanceFilter,
@@ -219,7 +268,7 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
             cell.categoryButton.backgroundColor = UIColor.init(red: 255/255.0, green: 194/255.0, blue: 0/255.0, alpha: 1)
             cell.categoryButton.setTitleColor(UIColor.white, for: .normal)
         }else{
-            cell.categoryButton.backgroundColor =  UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.1)
+            cell.categoryButton.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             cell.categoryButton.setTitleColor(UIColor.black, for: .normal)
 
         }
@@ -243,7 +292,7 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
             "current_latitude": lat,
             "current_longitude" : long,
             "location_id" : Singleton.instance.location_Id,
-            "weekday_id" : weekDayId,
+            "week_day_id" : weekDayId,
             "location_open_hours" : location_open_hours,
             "distanceFilter": distanceFilter,
             "category_id" : category_id
@@ -252,9 +301,12 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
         
         
         print(param)
-        Singleton.instance.location_open_hours = "0"
-        Singleton.instance.distanceFilter = ""
-        Singleton.instance.category_id = ""
+        
+        
+        //Singleton.instance.location_open_hours = "0"
+        //Singleton.instance.distanceFilter = ""
+        //Singleton.instance.category_id = ""
+        self.searchTextField.text = ""
         
         ServiceHelper.sharedInstance.createPostRequest(isShowHud: true, params: param as [String : AnyObject], apiName: "api/specials") { (response, error) in
             
@@ -268,13 +320,12 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
             
             if (response != nil) {
                 
-                
-                
                 self.specialsData.removeAll()
                 let JSONResponse = JSON(response as Any)
                 self.specialResponseData = JSONResponse
                 self.specialsData = JSONResponse["data"].arrayValue
                 self.tempSpecialData = self.specialsData
+                
                 
                 DispatchQueue.main.async {
                     self.specialTableView.reloadData()
@@ -315,18 +366,20 @@ extension SpecialViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
-        let locationsDetailsVC = mainStoryboard.instantiateViewController(withIdentifier: "ProgramDetailViewController") as! ProgramDetailViewController
-        locationsDetailsVC.specialDetails = specialsData[indexPath.row]
-        let sideMenuController = APPDELEGATE.sideMenuController
-        guard let centeralNavController = sideMenuController.centerViewController as? UINavigationController else {
-            return
-        }
+        Singleton.instance.specialBhutJadaNakreWalaArray = self.specialsData[indexPath.row]
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SpecialsDetials"), object: nil, userInfo: nil)
+//        let locationsDetailsVC = mainStoryboard.instantiateViewController(withIdentifier: "ProgramDetailViewController") as! ProgramDetailViewController
+//        locationsDetailsVC.specialDetails = specialsData[indexPath.row]
+//        let sideMenuController = APPDELEGATE.sideMenuController
+//        guard let centeralNavController = sideMenuController.centerViewController as? UINavigationController else {
+//            return
+//        }
         
-        centeralNavController.popToRootViewController(animated: false)
-        centeralNavController.setViewControllers([locationsDetailsVC], animated: false)
-        sideMenuController.closeSlider(.left, animated: true) { (_) in
-            //do nothing
-        }
+//        centeralNavController.popToRootViewController(animated: false)
+//        centeralNavController.setViewControllers([locationsDetailsVC], animated: false)
+//        sideMenuController.closeSlider(.left, animated: true) { (_) in
+//            //do nothing
+//        }
     }
     
     
@@ -341,7 +394,6 @@ extension SpecialViewController : UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCellID") as! PostTableViewCell
         
-       
         
        // cell.iconImageView
         cell.postTitleLabel.text = specialsData[indexPath.row]["name"].stringValue
@@ -355,20 +407,22 @@ extension SpecialViewController : UITableViewDelegate, UITableViewDataSource {
             cell.distanceLabel.text =   String(format: "%.2f", specialsData[indexPath.row]["location_info"]["distance"].doubleValue) + " KM"
         }
         
+        // "http://stadtfalke.com/" 
         
-        
-        let imageUrl = "http://83.137.194.211/stadtfalke" + specialsData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
+        let imageUrl = "http://stadtfalke.com" + specialsData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
             specialsData[indexPath.row]["logo_media_image"]["name"].stringValue
         
         
         cell.postImageView.sd_setImage(with: URL.init(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
         
         
-        let logoImage = "http://83.137.194.211/stadtfalke" + specialsData[indexPath.row]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
+        let logoImage = "http://stadtfalke.com/" + specialsData[indexPath.row]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
             specialsData[indexPath.row]["location_info"]["logo_media_image"]["name"].stringValue
         
         
-        cell.iconImageView.sd_setImage(with: URL.init(string: logoImage), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
+        cell.iconImageView.sd_setImage(with: URL.init(string: logoImage), placeholderImage: #imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
+        cell.iconImageView.layer.cornerRadius = 6
+        cell.iconImageView.clipsToBounds = true
        
         
         if specialsData[indexPath.row]["location_opening_hours"].stringValue == "geöffnet" {
@@ -395,6 +449,19 @@ extension SpecialViewController : UITextFieldDelegate {
         //self.callAPIToGetPageOffer(index: 1)
     }
     
+    
+    func uniq<S : Sequence, T : Hashable>(source: S) -> [T] where S.Iterator.Element == T {
+        var buffer = [T]()
+        var added = Set<T>()
+        for elem in source {
+            if !added.contains(elem) {
+                buffer.append(elem)
+                added.insert(elem)
+            }
+        }
+        return buffer
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         var searchText  = textField.text! + string
@@ -417,23 +484,62 @@ extension SpecialViewController : UITextFieldDelegate {
             print("Reponse Array Data", specialResponseData["data"].arrayObject as Any)
             
             let data = specialResponseData["data"].arrayObject as Any
-            var filterData = JSON()
+            var filterData = [[String:AnyObject]]()
+            var Lfilter = [[String:AnyObject]]()
+            var answerArray = [[String:AnyObject]]()
             
             let searchPredicate = NSPredicate(format: "name contains[cd] %@", searchText)
+            let LsearchPredicate = NSPredicate(format: "location_info.name contains[cd] %@", searchText)
+            
             if let array = data as? [[String:AnyObject]] {
-                filterData = JSON(array.filter{ searchPredicate.evaluate(with: $0) })
-                print(filterData)
+                filterData = array.filter{ searchPredicate.evaluate(with: $0) }
+                print("NF34",filterData)
             }
             
+            if let array = data as? [[String:AnyObject]] {
+                Lfilter = array.filter{ LsearchPredicate.evaluate(with: $0) }
+                print("LF",Lfilter)
+            }
+            
+            
+                let finalArray = filterData + Lfilter
+                print("Final Arra Count", finalArray)
+                
+                for i in 0..<finalArray.count
+                {
+                    let name1 = finalArray[i]["id"] as! Int
+                    if(i == 0){
+                        answerArray.append(finalArray[i])
+                    }else{
+                        var doesExist = false
+                        for j in 0..<answerArray.count
+                        {
+                            let name2 = finalArray[j]["id"] as! Int
+                            if name1 == name2 {
+                                doesExist = true
+                            }
+                        }
+                        if(!doesExist){
+                            answerArray.append(finalArray[i])
+                        }
+                    }
+                }
+                
+                
+                print("Ashghg",answerArray.count)
+        
+            
+           
+            
             specialsData.removeAll()
-            if filterData.arrayValue.count != 0 {
-                specialsData = filterData.arrayValue
+            if JSON(answerArray).arrayValue.count != 0 {
+                specialsData = JSON(answerArray).arrayValue
             } else if searchText == "" {
                 specialsData = tempSpecialData
             } else {
                 specialsData = []
             }
-//
+
          specialTableView.reloadData()
             
             
@@ -443,6 +549,9 @@ extension SpecialViewController : UITextFieldDelegate {
         }
     
 }
-    
+
+
+
+
     
 

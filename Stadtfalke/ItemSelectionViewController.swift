@@ -35,6 +35,12 @@ class ItemSelectionViewController: UIViewController {
         case 101:
             self.toggleSlider()
             break
+        case 102:
+            break
+        case 103:
+            break
+        case 104:
+            break
         default:
             var optionList = [String]()
             

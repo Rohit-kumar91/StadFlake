@@ -13,7 +13,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
    
     override func awakeFromNib() {
         super.awakeFromNib()
-        categoryButton.layer.cornerRadius = 3
+        categoryButton.layer.cornerRadius = 6
         categoryButton.clipsToBounds = true
     }
 

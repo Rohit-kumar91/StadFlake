@@ -22,7 +22,7 @@ class LocationDetailsViewController: UIViewController {
     var timer = Timer()
     var pageIndex : Int = 0
     var arrPageImage = [JSON]()
-    var locationID : String!
+    var locationID : String?
     var lattitude : Double = 0.0
     var longitude : Double = 0.0
     
@@ -33,6 +33,9 @@ class LocationDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        guard let loctionID = locationID else {
+            return
+        }
         
         callAPITOGetLocationDetail()
         
@@ -65,7 +68,7 @@ class LocationDetailsViewController: UIViewController {
         nameLabel.text = self.selectedDict["name"].stringValue
        
     
-        iconImageView.sd_setImage(with: URL.init(string: baseURL + selectedDict["logo_media_image"]["path"].stringValue  + "/" +  selectedDict["logo_media_image"]["name"].stringValue), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
+        iconImageView.sd_setImage(with: URL.init(string: baseURL + selectedDict["logo_media_image"]["path"].stringValue  + "/" +  selectedDict["logo_media_image"]["name"].stringValue), placeholderImage: #imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
         
         //swipe gesture
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
@@ -92,20 +95,15 @@ class LocationDetailsViewController: UIViewController {
         print("Array page Images ", arrPageImage)
         
         for value in arrPageImage {
-            
-            print("VAlue", value)
-            
             tempImages.append( baseURL + value["media_images"]["path"].stringValue  + "/" + value["media_images"]["name"].stringValue)
-            
-             print(baseURL + value["media_images"]["path"].stringValue  + "/" + value["media_images"]["name"].stringValue)
-            
-            
         }
         
-       
+        if arrPageImage.count != 0 {
+            let vc = ZoomableImageSlider(images: tempImages, currentIndex: nil, placeHolderImage: UIImage.init(named: "Placeholder"))
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
         
-        let vc = ZoomableImageSlider(images: tempImages, currentIndex: nil, placeHolderImage: UIImage.init(named: "Placeholder"))
-        self.navigationController?.pushViewController(vc, animated: true)
      
     }
     
@@ -172,7 +170,7 @@ class LocationDetailsViewController: UIViewController {
             print(baseURL + arrPageImage[pageIndex]["media_images"]["path"].stringValue)
             
             self.bannerImageView.sd_setImage(with: URL.init(string: baseURL + arrPageImage[pageIndex]["media_images"]["path"].stringValue + "/" +
-                arrPageImage[pageIndex]["media_images"]["name"].stringValue), placeholderImage:UIImage.init(named: "Placeholder"), options: .lowPriority, completed: nil)
+                arrPageImage[pageIndex]["media_images"]["name"].stringValue), placeholderImage:#imageLiteral(resourceName: "Square"), options: .lowPriority, completed: nil)
         }
         self.startTimer()
     }
@@ -226,22 +224,28 @@ class LocationDetailsViewController: UIViewController {
         var dicParams = [String: String]()
         
         print(Singleton.instance.detailLocationID)
+        let lat = UserDefaults.standard.value(forKey: "lat") as! Double
+        let long = UserDefaults.standard.value(forKey: "long") as! Double
         
         if Singleton.instance.detailLocationID != "" {
             
             dicParams = [
-                "location_slug" : Singleton.instance.detailLocationID
-            ]
+                "location_slug" : Singleton.instance.detailLocationID,
+                "current_latitude" : String(lat),
+                "current_longitude" : String(long)
+                
+                ]
             
             Singleton.instance.detailLocationID = ""
             
         } else {
             dicParams = [
-                "location_slug" :  locationID
-            ]
+                "location_slug" :  locationID,
+                "current_latitude" : String(lat),
+                "current_longitude" : String(long)
+                ] as! [String : String]
+            
         }
-        
-     
         
         
         print(dicParams)
@@ -294,27 +298,39 @@ extension LocationDetailsViewController : UITableViewDelegate, UITableViewDataSo
     
         if (indexPath.row == 0) {
             
-            let blackText = "Es ist Samstag " + "\(Date().getDateString()) wir haben"
+         
+            let blackText = "Es ist " + "\(Date().getDateString() )︱wir haben "
             let attrs = [NSAttributedStringKey.foregroundColor : UIColor.black]
             let attributedString = NSMutableAttributedString(string: blackText, attributes: attrs)
             
-//            let yelloText = "\(selectedDict["open_cl"].stringValue == "on" ? " geöffnet" : " geschlossen")"
-//            let yAttrs = [NSAttributedStringKey.foregroundColor : UIColor(red: 255/255, green: 194/255, blue: 0/255, alpha: 1.0)]
-//            let yAttributedString = NSMutableAttributedString(string: yelloText, attributes: yAttrs)
-//            attributedString.append(yAttributedString)
+            let yelloText = selectedDict["location_opening_hours"].stringValue
+            let yAttrs = [NSAttributedStringKey.foregroundColor : UIColor(red: 254/255, green: 192/255, blue: 15/255, alpha: 1.0)]
+            let yAttributedString = NSMutableAttributedString(string: yelloText, attributes: yAttrs)
+            attributedString.append(yAttributedString)
             
             cell.categoryTitleLabel.attributedText = attributedString
             cell.iconImageView.image = #imageLiteral(resourceName: "clock-1")
             
         } else if (indexPath.row == 1) {
-            let blackText = "Du bist \(selectedDict["distance"].stringValue) entfernt."
+            var blackText = ""
+            
+            if selectedDict["distance"].stringValue == "" {
+               
+                blackText = "Du bist \("0.0" + "km") entfernt."
+                
+            } else {
+                
+               blackText = "Du bist \(String(format: "%.2f", selectedDict["distance"].doubleValue) + " KM") entfernt."
+            }
+            
+            
             let attrs = [NSAttributedStringKey.foregroundColor : UIColor.black]
             let attributedString = NSMutableAttributedString(string: blackText, attributes: attrs)
             
-//            let yelloText = " Jetzt routen"
-//            let yAttrs = [NSAttributedStringKey.foregroundColor : UIColor(red: 255/255, green: 194/255, blue: 0/255, alpha: 1.0)]
-//            let yAttributedString = NSMutableAttributedString(string: yelloText, attributes: yAttrs)
-//            attributedString.append(yAttributedString)
+            let yelloText = " Jetzt routen"
+            let yAttrs = [NSAttributedStringKey.foregroundColor : UIColor(red: 254/255, green: 192/255, blue: 15/255, alpha: 1.0)]
+            let yAttributedString = NSMutableAttributedString(string: yelloText, attributes: yAttrs)
+            attributedString.append(yAttributedString)
             
             cell.categoryTitleLabel.attributedText = attributedString
             cell.iconImageView.image = #imageLiteral(resourceName: "compass")
@@ -378,7 +394,10 @@ extension LocationDetailsViewController : UITableViewDelegate, UITableViewDataSo
             break
         case 2:
 
-            AppUtility.gotoHomeController()
+            //AppUtility.gotoHomeController()
+            let aboutUsVC = mainStoryboard.instantiateViewController(withIdentifier: "SpecialViewControllerID") as! SpecialViewController
+            aboutUsVC.hideViews = true
+            self.navigationController?.pushViewController(aboutUsVC, animated: true)
             
             break
         case 3:

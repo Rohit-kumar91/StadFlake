@@ -497,27 +497,7 @@ class AppUtility: NSObject {
         
     }
     
-    class func gotoLocationController() {
-        
-        let sideMenuController = APPDELEGATE.sideMenuController
-        guard let centeralNavController = sideMenuController.centerViewController as? UINavigationController else {
-            return
-        }
-        centeralNavController.popToRootViewController(animated: false)
-        
-//        if let tabBarController = UIWindow?.rootViewController as? UITabBarController {
-//            tabBarController.selectedIndex = 1
-//        }
-        
-        let tabBarVC = mainStoryboard.instantiateViewController(withIdentifier: "TabBarViewControllerID") as! TabBarViewController
-        tabBarVC.selectedIndex = 2
-        
-        centeralNavController.setViewControllers([tabBarVC], animated: false)
-        sideMenuController.closeSlider(.left, animated: true) { (_) in
-            //do nothing
-        }
-        
-    }
+    
 
 }
 

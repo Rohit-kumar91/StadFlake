@@ -76,7 +76,7 @@ class AboutUsViewController: UIViewController, MFMailComposeViewControllerDelega
       
     }
     
-    func mailComposeController(controller:MFMailComposeViewController, didFinishWithResult result:MFMailComposeResult, error:NSError) {
+    private func mailComposeController(controller:MFMailComposeViewController, didFinishWithResult result:MFMailComposeResult, error:NSError) {
         switch result {
         case .cancelled:
             print("Mail cancelled")
@@ -117,10 +117,11 @@ extension AboutUsViewController : UITableViewDelegate, UITableViewDataSource {
         let description = dictValue["description"].stringValue + dictValue["miscellaneous"].stringValue
         
         
-        cell.myMapView.camera = GMSCameraPosition.camera(withLatitude: dictValue["latitude"].doubleValue, longitude: dictValue["longitude"].doubleValue, zoom: 6.0)
+        cell.myMapView.camera = GMSCameraPosition.camera(withLatitude: dictValue["latitude"].doubleValue, longitude: dictValue["longitude"].doubleValue, zoom: 15.0)
         let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: dictValue["latitude"].doubleValue, longitude: dictValue["longitude"].doubleValue))
 
         marker.map = cell.myMapView
+        
         
         cell.descriptionlabel.setHTMLFromString(text: description)
         return cell

@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>954546600275-80f63r7gj9ohto7v3vd72k0m2vcktdhc.apps.googleusercontent.com</string>
+	<string>2112061615-047a6s2a45q79t4ifl8lvr4ffgfvd7i9.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.954546600275-80f63r7gj9ohto7v3vd72k0m2vcktdhc</string>
+	<string>com.googleusercontent.apps.2112061615-047a6s2a45q79t4ifl8lvr4ffgfvd7i9</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCX_cyv5IxsstVQGeABYXqs9llaH97qVXk</string>
+	<string>AIzaSyA61ZfFkcqHc9paSnwwEZB-huOq4hfV1Js</string>
 	<key>GCM_SENDER_ID</key>
-	<string>954546600275</string>
+	<string>2112061615</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.stadtfalke.development</string>
 	<key>PROJECT_ID</key>
-	<string>stadtfalkemain</string>
+	<string>stadtfalke-d366b</string>
 	<key>STORAGE_BUCKET</key>
-	<string>stadtfalkemain.appspot.com</string>
+	<string>stadtfalke-d366b.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:954546600275:ios:40d1d0c59d91003f</string>
+	<string>1:2112061615:ios:40d1d0c59d91003f</string>
 	<key>DATABASE_URL</key>
-	<string>https://stadtfalkemain.firebaseio.com</string>
+	<string>https://stadtfalke-d366b.firebaseio.com</string>
 </dict>
 </plist>

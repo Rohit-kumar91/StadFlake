@@ -135,11 +135,11 @@ class ProgramDetailViewController: UIViewController {
     
 
     @IBAction func menuButtonAction(_ sender: UIButton) {
-        USERDEFAULT.setValue("\(sender.tag)", forKey: "value")
-        USERDEFAULT.synchronize()
-        AppUtility.gotoHomeController()
+//        USERDEFAULT.setValue("\(sender.tag)", forKey: "value")
+//        USERDEFAULT.synchronize()
+//        AppUtility.gotoHomeController()
         
-       // self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
       //  self.toggleSlider()
     }
 
@@ -242,14 +242,17 @@ extension ProgramDetailViewController:UITableViewDelegate,UITableViewDataSource{
         cell.locationNameLabel.text = "@\(specialDetails["location_info"]["name"].stringValue)"
         
 
-        let imageUrl = "http://83.137.194.211/stadtfalke" + specialDetails["logo_media_image"]["path"].stringValue + "/" +
+        let imageUrl = "http://stadtfalke.com/" + specialDetails["logo_media_image"]["path"].stringValue + "/" +
             specialDetails["logo_media_image"]["name"].stringValue
         
         cell.posterImageView.sd_setImage(with: URL.init(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
         
         
-        let logoImage = "http://83.137.194.211/stadtfalke" + specialDetails["location_logo_media_img"]["path"].stringValue + "/" + specialDetails["location_logo_media_img"]["name"].stringValue
-        cell.logoIconImageView.sd_setImage(with: URL.init(string: logoImage), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
+        let logoImage = "http://stadtfalke.com/" + specialDetails["location_logo_media_img"]["path"].stringValue + "/" + specialDetails["location_logo_media_img"]["name"].stringValue
+        cell.logoIconImageView.sd_setImage(with: URL.init(string: logoImage), placeholderImage:#imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
+        
+        cell.logoIconImageView.layer.cornerRadius = 6
+        cell.logoIconImageView.clipsToBounds = true
         
         if specialDetails["location_info"]["distance"].stringValue == "" {
             cell.addressLabel.text = "0.0" + "KM"

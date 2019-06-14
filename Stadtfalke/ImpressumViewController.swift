@@ -114,7 +114,8 @@ class ImpressumViewController: UIViewController {
                 let jsonResponse = JSON(response as Any)
                 
                 
-                self.myWebView.loadHTMLString(jsonResponse["data"]["content"].stringValue, baseURL: nil)
+                self.descriptionTextView.setHTMLFromString(text: jsonResponse["data"]["content"].stringValue)
+                //self.myWebView.loadHTMLString(jsonResponse["data"]["content"].stringValue, baseURL: nil)
                 
 //                let status = response!.object(forKey: "success") as! String
 //                if status == "true" {

@@ -23,5 +23,6 @@ pod 'GoogleMaps'
   pod 'Firebase/Messaging'
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'SwiftSVG', '~> 2.0'
 
 end

@@ -69,17 +69,8 @@ class YourCityViewController: UIViewController {
     }
     
     @IBAction func notificationButtonAction(_ sender: UIButton) {
-        let sideMenuController = APPDELEGATE.sideMenuController
-        guard let centeralNavController = sideMenuController.centerViewController as? UINavigationController else {
-            return
-        }
-        centeralNavController.popToRootViewController(animated: false)
-        
-        let mitteilungenVC = self.storyboard?.instantiateViewController(withIdentifier: "MitteilungenViewControllerID") as! MitteilungenViewController
-        centeralNavController.setViewControllers([mitteilungenVC], animated: false)
-        sideMenuController.closeSlider(.left, animated: true) { (_) in
-            //do nothing
-        }
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "NotificationViewController") as! NotificationViewController
+        self.present(vc, animated: true, completion: nil)
     }
     
     private func callAPIToGetLocationList() {
@@ -107,6 +98,7 @@ class YourCityViewController: UIViewController {
                 
                 let jsonresponse = JSON(response as Any)
                  self.subscriptionArray = jsonresponse["data"].arrayValue
+                print(self.subscriptionArray)
                 self.yourCityTableView.reloadData()
                 
             } else {
@@ -127,6 +119,9 @@ class YourCityViewController: UIViewController {
             "status" : isOn
         ]
         
+        
+        print(param)
+        
         ServiceHelper.sharedInstance.createEncodedPostRequest(isShowHud: true, params:param as [String : AnyObject], apiName: "api/unSubscribe") { (response, error) in
             if error != nil {
                 MCCustomAlertController.alert(title: "", message: (error?.localizedDescription)!, buttons: ["OK"], tapBlock: { (action, index) in
@@ -141,10 +136,10 @@ class YourCityViewController: UIViewController {
                 let jsonresponse = JSON(response as Any)
                 print(jsonresponse)
                 
-                if jsonresponse["status"].stringValue == "1" {
-                    self.subscriptionArray[index]["status"] = 1
-                } else {
+                if isOn == "1" {
                     self.subscriptionArray[index]["status"] = 0
+                } else {
+                    self.subscriptionArray[index]["status"] = 1
                 }
                 
                 
@@ -199,9 +194,9 @@ class YourCityViewController: UIViewController {
         
         var check  = Int()
         if sender.isOn {
-            check = 1
-        } else {
             check = 0
+        } else {
+            check = 1
         }
         
         updateStatus(id: id, isOn: String(check), index: sender.tag)
@@ -220,13 +215,23 @@ extension YourCityViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCellID") as! PostTableViewCell
         
-        let urlString = "http://83.137.194.211/stadtfalke" + subscriptionArray[indexPath.row]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
+        let urlString = "http://stadtfalke.com/" + subscriptionArray[indexPath.row]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
             subscriptionArray[indexPath.row]["location_info"]["logo_media_image"]["name"].stringValue
         
-        cell.iconImageView.sd_setImage(with: URL.init(string: urlString), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
+        cell.iconImageView.sd_setImage(with: URL.init(string: urlString), placeholderImage: #imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
+        
+         cell.iconImageView.layer.cornerRadius = 6
+         cell.iconImageView.clipsToBounds = true
         cell.postTitleLabel.text = subscriptionArray[indexPath.row]["location_info"]["name"].stringValue
         cell.switchButton.tag = indexPath.row
-        cell.switchButton.isSelected = subscriptionArray[indexPath.row]["status"].intValue == 1 ? true : false
+        
+        if subscriptionArray[indexPath.row]["status"].intValue == 1 {
+            cell.switchButton.isOn = true
+        } else {
+            cell.switchButton.isOn = false
+        }
+            
+        
         cell.switchButton.addTarget(self, action: #selector(self.switchButtonAction(sender:)), for: .touchUpInside)
         return cell
         

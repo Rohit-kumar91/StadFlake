@@ -26,13 +26,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var privateSideMenuController: MASliderViewController?
     var locationManager: CLLocationManager!
     var firebaseInstanceId = String()
+    var gcmMessageIDKey = "gcm_message_id"
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         GMSServices.provideAPIKey("AIzaSyCO0KnlaYUxUoKz2bUIJT7H2m4XL_nILkY")
-        FirebaseApp.configure()
+        
         self.registerForRemoteNotification(application)
         Messaging.messaging().delegate = self
+        FirebaseApp.configure()
         Fabric.with([Crashlytics.self])
         InstanceID.instanceID().instanceID { (result, error) in
             if let error = error {
@@ -176,17 +178,66 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     //MARK:- Push Notification Delegate Methods
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let tokenParts = deviceToken.map { data -> String in
-            return String(format: "%02.2hhx", data)
+        
+//        let tokenParts = deviceToken.map { data -> String in
+//            return String(format: "%02.2hhx", data)
+//        }
+//        let token = tokenParts.joined()
+//        firebaseInstanceId = token
+//
+//        UserDefaults.standard.set(token, forKey: "DeviceToken")
+//        print("Device Token: \(token)")
+//
+//        if let refreshedToken = InstanceID.instanceID().token() {
+//            print("InstanceID token: \(refreshedToken)")
+//            self.firebaseInstanceId = refreshedToken
+//        }
+        
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instange ID: \(error)")
+            } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                self.firebaseInstanceId = result.token
+            }
+        }
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+        
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
         }
         
-        let token = tokenParts.joined()
-        UserDefaults.standard.set(token, forKey: "DeviceToken")
-        print("Device Token: \(token)")
+        // Print full message.
+        print(userInfo)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
         
-        if let refreshedToken = InstanceID.instanceID().token() {
-            print("InstanceID token: \(refreshedToken)")
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
         }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler(UIBackgroundFetchResult.newData)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -315,10 +366,10 @@ extension AppDelegate  {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         
-        //        // Print message ID.
-        //        if let messageID = userInfo[gcmMessageIDKey] {
-        //            print("Message ID: \(messageID)")
-        //        }
+                // Print message ID.
+                if let messageID = userInfo[gcmMessageIDKey] {
+                    print("Message ID: \(messageID)")
+                }
         
         // Print full message.
         print(userInfo)
@@ -332,9 +383,9 @@ extension AppDelegate  {
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         // Print message ID.
-        //        if let messageID = userInfo[gcmMessageIDKey] {
-        //            print("Message ID: \(messageID)")
-        //        }
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
         //
         // Print full message.
         print(userInfo)
@@ -345,14 +396,17 @@ extension AppDelegate  {
     
     func addRegisterDevice(_ token: String) {
         
-        let uDID = UUID().uuidString
-        UserDefaults.standard.set(uDID, forKey: "current_UDID")
+        print(token)
+        
+        UserDefaults.standard.set(deviceUDID(), forKey: "current_UDID")
         
         let param = [
-            "token" : "sdfsjfgdshgfhjsdgfhdsgfhjdsgfjhsgfsgfhgdshjfgsvnxcdsf",
-            "udid" : uDID,
+            "token" : token,
+            "udid" : deviceUDID(),
             "type" : "I"
         ]
+        
+        print(param)
         
         ServiceHelper.sharedInstance.createPostRequest(isShowHud: true, params: param as [String : AnyObject], apiName: "api/device/add") { (response, error) in
             

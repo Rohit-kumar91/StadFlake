@@ -43,7 +43,7 @@ class PartnerWerdenViewController: UIViewController, MFMailComposeViewController
     
     func launchEmail() {
         
-        let emailTitle = "Support Request"
+        let emailTitle = ""
         
         let messageBody = ""
         
@@ -113,7 +113,7 @@ class PartnerWerdenViewController: UIViewController, MFMailComposeViewController
 
 }
 
-extension PartnerWerdenViewController: UICollectionViewDataSource {
+extension PartnerWerdenViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return reponseData.count
     }
@@ -123,12 +123,18 @@ extension PartnerWerdenViewController: UICollectionViewDataSource {
         
         cell.partnerName.text = reponseData[indexPath.item]["name"].stringValue
         
-        let imageUrl = "http://83.137.194.211/stadtfalke" + reponseData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
+        let imageUrl = "http://stadtfalke.com/" + reponseData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
             reponseData[indexPath.row]["logo_media_image"]["name"].stringValue
         cell.parterImage.sd_setImage(with: URL.init(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
         
         return cell
         
+    }
+    
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+        return CGSize(width: 136, height: 161)
     }
     
     

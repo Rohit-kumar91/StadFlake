@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
-class DatenschutzViewController: UIViewController, UIWebViewDelegate {
+class DatenschutzViewController: UIViewController {
     
     var textData = String()
-    @IBOutlet weak var loader: UIActivityIndicatorView!
-    @IBOutlet weak var webView: UIWebView!
+   
+    @IBOutlet weak var textView: UITextView!
     
     override func viewDidLoad() {
          super.viewDidLoad()
-         self.webView.delegate = self
+        
          callAPI()
     }
     
@@ -31,7 +31,7 @@ class DatenschutzViewController: UIViewController, UIWebViewDelegate {
         
         let apiName = "api/cms-page"
         
-        ServiceHelper.sharedInstance.createPostRequest(isShowHud: false, params: dictParams as [String : AnyObject], apiName: apiName) { (response, error) in
+        ServiceHelper.sharedInstance.createPostRequest(isShowHud: true, params: dictParams as [String : AnyObject], apiName: apiName) { (response, error) in
             if error != nil {
                 MCCustomAlertController.alert(title: "", message: (error?.localizedDescription)!, buttons: ["OK"], tapBlock: { (action, index) in
                     //
@@ -47,7 +47,20 @@ class DatenschutzViewController: UIViewController, UIWebViewDelegate {
                 let jsonResponse = JSON(response as Any)
                 print(jsonResponse)
                 self.textData = jsonResponse["data"]["content"].stringValue
-                self.webView.loadHTMLString(jsonResponse["data"]["content"].stringValue, baseURL: nil)
+                
+                
+                
+//                let htmlData = NSString(string: self.textData).data(using: String.Encoding.unicode.rawValue)
+//
+//                let options = [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html]
+//
+//                let attributedString = try! NSAttributedString(data: htmlData!, options: options, documentAttributes: nil)
+                
+               
+                self.textView.setHTMLFromString(text: self.textData)
+                
+                
+               // self.textView.attributedText = attributedString
                 
                 
             } else {
@@ -60,18 +73,37 @@ class DatenschutzViewController: UIViewController, UIWebViewDelegate {
     }
     
     
-    func webViewDidStartLoad(_ : UIWebView) {
-        loader.isHidden = false
-        loader.startAnimating()
-    }
-    
-    func webViewDidFinishLoad(_ : UIWebView) {
-        loader.stopAnimating()
-        loader.isHidden = true
-    }
+   
 
     @IBAction func menuButton(_ sender: Any) {
         self.toggleSlider()
     }
     
+}
+
+
+
+extension UITextView {
+    func setHTMLFromString(text: String) {
+        let modifiedFont = NSString(format:"<span style=\"font-family: \(self.font!.fontName); font-size: \(self.font!.pointSize)\">%@</span>" as NSString, text)
+        
+        let attrStr = try! NSAttributedString(
+            data: modifiedFont.data(using: String.Encoding.unicode.rawValue, allowLossyConversion: true)!,
+            options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html, NSAttributedString.DocumentReadingOptionKey.characterEncoding: String.Encoding.utf8.rawValue],
+            documentAttributes: nil)
+        
+        self.attributedText = attrStr
+    }
+    
+    
+    func setHTMLFromStringInWhite(text: String) {
+        let modifiedFont = NSString(format:"<span style=\"font-family: \(self.font!.fontName); color:White; font-size: \(self.font!.pointSize)\">%@</span>" as NSString, text)
+        
+        let attrStr = try! NSAttributedString(
+            data: modifiedFont.data(using: String.Encoding.unicode.rawValue, allowLossyConversion: true)!,
+            options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html, NSAttributedString.DocumentReadingOptionKey.characterEncoding: String.Encoding.utf8.rawValue],
+            documentAttributes: nil)
+        
+        self.attributedText = attrStr
+    }
 }

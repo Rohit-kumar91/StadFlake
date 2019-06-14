@@ -170,7 +170,7 @@ extension MitteilungenViewController : UITableViewDelegate, UITableViewDataSourc
         
        // print(dict)
         
-        cell.iconImageView.sd_setImage(with: URL.init(string: "https://www.test-it.eu/\(dict["loc_img"] as! String)"), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
+        cell.iconImageView.sd_setImage(with: URL.init(string: "https://www.test-it.eu/\(dict["loc_img"] as! String)"), placeholderImage: #imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
         cell.postTitleLabel.text = "\(dict["title"] as! String) @ \(dict["loc_title"] as! String)"
         
         if dict["time"] as? String != nil {

@@ -14,7 +14,8 @@ final class ServiceHelper {
     
 //     let baseURL = "http://meclub.powerupcloud.com/"
 //     let baseURL = "http://meclub-puc.powerupcloud.com/"
-       let baseURL =  "http://83.137.194.211/stadtfalke/public/"
+      // let baseURL =  "http://stadtfalke.com//public/"
+    let baseURL =  "http://stadtfalke.com/"
     
     // Specifying the Headers we need
     class var sharedInstance: ServiceHelper {

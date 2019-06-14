@@ -62,7 +62,7 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
         cell.notificationTittle.text = responseData[indexPath.row]["offer_info"]["name"].stringValue
         cell.notificationby.text = responseData[indexPath.row]["description"].stringValue
         
-        let imageUrl = "http://83.137.194.211/stadtfalke" + responseData[indexPath.row]["offer_info"]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
+        let imageUrl = "http://stadtfalke.com/" + responseData[indexPath.row]["offer_info"]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
             responseData[indexPath.row]["offer_info"]["location_info"]["logo_media_image"]["name"].stringValue
         cell.imageNotification.sd_setImage(with: URL.init(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
         
@@ -72,7 +72,7 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let date = dateFormatter.date(from: dateAsString)
         
-        cell.notiifcationTime.text = date?.getElapsedInterval()
+        cell.notiifcationTime.text = date?.timeAgoDisplay()
         
         
         
@@ -89,22 +89,24 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension Date {
-    
-    func getElapsedInterval() -> String {
+    func timeAgoDisplay() -> String {
+        let secondsAgo = Int(Date().timeIntervalSince(self))
         
-        let interval = Calendar.current.dateComponents([.year, .month, .day], from: self, to: Date())
+        let minute = 60
+        let hour = 60 * minute
+        let day = 24 * hour
+        let week = 7 * day
         
-        if let year = interval.year, year > 0 {
-            return year == 1 ? "\(year)" + " " + "year ago" :
-                "\(year)" + " " + "years ago"
-        } else if let month = interval.month, month > 0 {
-            return month == 1 ? "\(month)" + " " + "month ago" :
-                "\(month)" + " " + "months ago"
-        } else if let day = interval.day, day > 0 {
-            return day == 1 ? "\(day)" + " " + "day ago" :
-                "\(day)" + " " + "days ago"
-        } else {
-            return "a moment ago"
+        if secondsAgo < minute {
+            return "\(secondsAgo) seconds ago"
+        } else if secondsAgo < hour {
+            return "\(secondsAgo / minute) minutes ago"
+        } else if secondsAgo < day {
+            return "\(secondsAgo / hour) hours ago"
+        } else if secondsAgo < week {
+            return "\(secondsAgo / day) days ago"
         }
+        
+        return "\(secondsAgo / week) weeks ago"
     }
 }

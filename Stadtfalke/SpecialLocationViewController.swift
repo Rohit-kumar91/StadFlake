@@ -230,7 +230,7 @@ extension SpecialLocationViewController : UITableViewDelegate, UITableViewDataSo
         cell.postSubTitleLabel.text = "@\(dict.locationName)"
         cell.distanceLabel.text = ""
         cell.postImageView.sd_setImage(with: URL.init(string: dict.image), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
-        cell.iconImageView.sd_setImage(with: URL.init(string: dict.locationLogo), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
+        cell.iconImageView.sd_setImage(with: URL.init(string: dict.locationLogo), placeholderImage: #imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
         cell.distanceLabel.text = dict.distance
         if dict.locationOnOff == "on" {
             cell.onOffLabel.backgroundColor = UIColor.green

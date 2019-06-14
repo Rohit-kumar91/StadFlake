@@ -16,11 +16,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var locationBtn: UIButton!
     @IBOutlet weak var specialBtn: UIButton!
     
-    @IBOutlet weak var firstLabel: UILabel!
-    @IBOutlet weak var secondLabel: UILabel!
-
-    @IBOutlet weak var thirdLabel: UILabel!
-
+    @IBOutlet weak var specialLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var deinStadFlakeLabel: UILabel!
+    
     @IBOutlet weak var topConstant: NSLayoutConstraint!
     //controller
     var specialVC:SpecialViewController = SpecialViewController()
@@ -31,7 +30,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         initialMethods()
-        
+        specialLabel.textColor = #colorLiteral(red: 0.9960784314, green: 0.7529411765, blue: 0.05882352941, alpha: 1)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.yourfunction(notfication:)), name: NSNotification.Name(rawValue: "goToDetails"), object: nil)
         
@@ -39,6 +38,9 @@ class HomeViewController: UIViewController {
         
         // Register to receive notification in your class
         NotificationCenter.default.addObserver(self, selector: #selector(self.showSpinningWheel(_:)), name: NSNotification.Name(rawValue: "detailsLocation"), object: nil)
+        
+        // Register to receive notification in your class
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showSpecialsDetails(_:)), name: NSNotification.Name(rawValue: "SpecialsDetials"), object: nil)
 
         
     }
@@ -48,6 +50,14 @@ class HomeViewController: UIViewController {
         
     }
     
+    
+    @objc func showSpecialsDetails(_ notification: NSNotification) {
+        
+        let locationsDetailsVC = mainStoryboard.instantiateViewController(withIdentifier: "ProgramDetailViewController") as! ProgramDetailViewController
+        locationsDetailsVC.specialDetails = Singleton.instance.specialBhutJadaNakreWalaArray
+        self.navigationController?.pushViewController(locationsDetailsVC, animated: true)
+
+    }
     
     // handle notification
     @objc func showSpinningWheel(_ notification: NSNotification) {
@@ -144,17 +154,30 @@ class HomeViewController: UIViewController {
     func setController(index : Int){
         
         specialBtn.isSelected = false
-        firstLabel.textColor = UIColor.black
         locationBtn.isSelected = false
-        secondLabel.textColor = UIColor.black
         thirdBtn.isSelected = false
-        thirdLabel.textColor = UIColor.black
+      
         
         
         if index == 0 {
             //special controller
+            
+            Singleton.instance.filterSelectedValues.removeAll()
+            Singleton.instance.location_open_hours = "0"
+            Singleton.instance.distanceFilter = ""
+            Singleton.instance.category_id = ""
+            Singleton.instance.specialViewReloadCheck = true
+            
+            specialBtn.tintColor = #colorLiteral(red: 0.9960784314, green: 0.7529411765, blue: 0.05882352941, alpha: 1)
+            locationBtn.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            thirdBtn.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            specialLabel.textColor = #colorLiteral(red: 0.9960784314, green: 0.7529411765, blue: 0.05882352941, alpha: 1)
+            locationLabel.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            deinStadFlakeLabel.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            
             specialBtn.isSelected = true
-            firstLabel.textColor = UIColor.init(red: (255.0/255.0), green: (194/255.0), blue: (0/255.0), alpha: 1.0)
+            
+            
             
             thirdVC.view.removeFromSuperview()
             locationVC.view.removeFromSuperview()
@@ -164,8 +187,22 @@ class HomeViewController: UIViewController {
         
         }else if index == 1{
             //location controller
+            
+            specialBtn.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            locationBtn.tintColor = #colorLiteral(red: 0.9960784314, green: 0.7529411765, blue: 0.05882352941, alpha: 1)
+            thirdBtn.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            
+            specialLabel.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            locationLabel.textColor = #colorLiteral(red: 0.9960784314, green: 0.7529411765, blue: 0.05882352941, alpha: 1)
+            deinStadFlakeLabel.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            
+            Singleton.instance.filterSelectedValues.removeAll()
+            Singleton.instance.location_open_hours = "0"
+            Singleton.instance.distanceFilter = ""
+            Singleton.instance.category_id = ""
+            
             locationBtn.isSelected = true
-            secondLabel.textColor = UIColor.init(red: (255.0/255.0), green: (194/255.0), blue: (0/255.0), alpha: 1.0)
+          
             thirdVC.view.removeFromSuperview()
             specialVC.view.removeFromSuperview()
             locationVC.view.frame = self.containerView.frame;
@@ -173,8 +210,16 @@ class HomeViewController: UIViewController {
             
         }else{
             //third controller
+            
+            specialBtn.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            locationBtn.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            thirdBtn.tintColor = #colorLiteral(red: 0.9960784314, green: 0.7529411765, blue: 0.05882352941, alpha: 1)
+            specialLabel.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            locationLabel.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+            deinStadFlakeLabel.textColor = #colorLiteral(red: 0.9960784314, green: 0.7529411765, blue: 0.05882352941, alpha: 1)
+            
             thirdBtn.isSelected = true
-            thirdLabel.textColor = UIColor.init(red: (255.0/255.0), green: (194/255.0), blue: (0/255.0), alpha: 1.0)
+           
             locationVC.view.removeFromSuperview()
             specialVC.view.removeFromSuperview()
             thirdVC.view.frame = self.containerView.frame;

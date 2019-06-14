@@ -211,7 +211,7 @@ extension NewScreenViewController : UITableViewDelegate, UITableViewDataSource {
         cell.postSubTitleLabel.text = "@\(dict["loc_name"] ?? "" as AnyObject)"
         cell.distanceLabel.text = ""
        // cell.postImageView.sd_setImage(with: URL.init(string: "https://www.test-it.eu/\(dict["image"] ?? "" as AnyObject)"), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
-        cell.iconImageView.sd_setImage(with: URL.init(string: "https://www.test-it.eu/\(dict["image"] ?? "" as AnyObject)"), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
+        cell.iconImageView.sd_setImage(with: URL.init(string: "https://www.test-it.eu/\(dict["image"] ?? "" as AnyObject)"), placeholderImage: #imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
         cell.distanceLabel.text = "\(dict["distance"] ?? "" as AnyObject)"
         if (dict["loc_open_cl"] as? String) == "on" {
             cell.onOffLabel.backgroundColor = UIColor.green

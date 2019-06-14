@@ -16,7 +16,7 @@ class MenuTimeViewController: UIViewController {
     //var menuTimeArray = [JSON]()
    // var menuRefineArray = [JSON]()
     
-   // @IBOutlet weak var menuTable: UITableView!
+  @IBOutlet weak var menuTable: UITableView!
 
     
     var menuData = [JSON]()
@@ -25,24 +25,19 @@ class MenuTimeViewController: UIViewController {
     var downloadTask: URLSessionDownloadTask!
     var insuranceUrl: URL?
     var fileName: String?
+    var row = 0
 
-    @IBOutlet weak var menuButton: UIButton!
-    @IBOutlet weak var stackView: UIStackView!
-    @IBOutlet weak var downloadSpinner: UIActivityIndicatorView!
-    @IBOutlet weak var progress: UIProgressView!
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        stackView.isHidden = true
         let backgroundSessionConfiguration = URLSessionConfiguration.background(withIdentifier: "backgroundSession")
         defaultSession = Foundation.URLSession(configuration: backgroundSessionConfiguration, delegate: self, delegateQueue: OperationQueue.main)
-        progress.setProgress(0.0, animated: false)
+       
         
-        let title = menuData[0]["title"].stringValue
-        menuButton.setTitle(title, for: .normal)
-        menuButton.layer.cornerRadius = 4
+        
         
         // Do any additional setup after loading the view.
         
@@ -98,10 +93,12 @@ class MenuTimeViewController: UIViewController {
         
     }
     
-    @IBAction func menuButton(_ sender: Any) {
-        stackView.isHidden = false
+    @IBAction func buttonmenu(_ sender: UIButton) {
+        row = sender.tag
+        showHud()
         startDownloading ()
     }
+    
     
     
     @IBAction func backButton(_ sender: Any) {
@@ -140,11 +137,33 @@ class MenuTimeViewController: UIViewController {
 
 }
 
+extension MenuTimeViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return menuData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MenuTableViewCell
+        
+        let title = menuData[indexPath.row]["title"].stringValue
+        cell.menuButton.setTitle(title, for: .normal)
+        cell.menuButton.layer.cornerRadius = 4
+        cell.menuButton.tag = indexPath.row
+        cell.stackView.isHidden = true
+        cell.progress.setProgress(0.0, animated: true)
+        return cell
+    }
+}
+
 
 extension MenuTimeViewController: URLSessionDownloadDelegate,UIDocumentInteractionControllerDelegate {
     
     func startDownloading () {
-        downloadSpinner.isHidden = false
+        
+        let indexPath = IndexPath(row: row, section: 0)
+        let cell = menuTable.cellForRow(at: indexPath) as! MenuTableViewCell
+        
+        cell.downloadSpinner.isHidden = false
         print(menuData[0])
         print(menuData[0]["created_at"].stringValue)
         print(menuData[0]["file"].stringValue)
@@ -157,10 +176,13 @@ extension MenuTimeViewController: URLSessionDownloadDelegate,UIDocumentInteracti
     // MARK:- URLSessionDownloadDelegate
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         
-        stackView.isHidden = false
+        let indexPath = IndexPath(row: row, section: 0)
+        let cell = menuTable.cellForRow(at: indexPath) as! MenuTableViewCell
+        menuTable.reloadRows(at: [indexPath], with: .none)
+        cell.stackView.isHidden = false
         print(downloadTask)
         print("File download succesfully")
-        downloadSpinner.isHidden = true
+        cell.downloadSpinner.isHidden = true
         
         let path = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         let documentDirectoryPath:String = path[0]
@@ -186,13 +208,19 @@ extension MenuTimeViewController: URLSessionDownloadDelegate,UIDocumentInteracti
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        progress.setProgress(Float(totalBytesWritten)/Float(totalBytesExpectedToWrite), animated: true)
+        let indexPath = IndexPath(row: row, section: 0)
+        let cell = menuTable.cellForRow(at: indexPath) as! MenuTableViewCell
+        cell.progress.setProgress(Float(totalBytesWritten)/Float(totalBytesExpectedToWrite), animated: true)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         downloadTask = nil
-        stackView.isHidden = true
-        progress.setProgress(0.0, animated: true)
+        hideHud()
+        let indexPath = IndexPath(row: row, section: 0)
+        let cell = menuTable.cellForRow(at: indexPath) as! MenuTableViewCell
+        cell.stackView.isHidden = true
+        cell.progress.setProgress(0.0, animated: true)
+
         if (error != nil) {
             print("didCompleteWithError \(error?.localizedDescription ?? "no value")")
         }

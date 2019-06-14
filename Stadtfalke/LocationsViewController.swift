@@ -25,6 +25,7 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
     var locationData = [JSON]()
     var locationResponseData = JSON()
     var tempLocationData = [JSON]()
+    var valueSelected = String()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,22 +37,30 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
     
     override func viewWillAppear(_ animated: Bool) {
         if Singleton.instance.reloadCheck {
+            
+            if Singleton.instance.refresh {
+                Singleton.instance.refresh = false
+                valueSelected = "ALLE"
+            }
+            
             Singleton.instance.reloadCheck = false
-            selectedRow = Singleton.instance.reloadIndex + 1
+            selectedRow = Singleton.instance.reloadIndex 
             
             myCollectionView.reloadData()
-            let indexPath = IndexPath(row: selectedRow, section: 0)
+            let indexPath = IndexPath(row: selectedRow , section: 0)
             myCollectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.left, animated: true)
             
             self.getLocationData(category_id:  Singleton.instance.category_id, location_opening_hours: Singleton.instance.location_open_hours, distanceFilter: Singleton.instance.distanceFilter )
             
         } else {
-            getCategory()
+            if Singleton.instance.categoryflag {
+                Singleton.instance.categoryflag = false
+                //Nothing here
+            } else {
+                getCategory()
+            }
         }
         
-        
-        
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -67,10 +76,7 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
     
     
     func getCategory() {
-        
-       
-        
-        ServiceHelper.sharedInstance.createGetRequest(isShowHud: false, params: [:], apiName: "api/categories") { (response, error) in
+        ServiceHelper.sharedInstance.createGetRequest(isShowHud: true, params: [:], apiName: "api/categories") { (response, error) in
             
             if error != nil {
                 MCCustomAlertController.alert(title: "", message: (error?.localizedDescription)!, buttons: ["OK"], tapBlock: { (action, index) in
@@ -95,9 +101,11 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
                 
                 let all = JSON(dict)
                 self.categoryMenu.insert(all, at:0)
-                
+                self.searchTextField.text = ""
                 print(self.categoryMenu)
                 self.selectedRow = 0
+                self.valueSelected = "ALLE"
+                Singleton.instance.reloadIndex = 0
                 self.myCollectionView.reloadData()
                 let indexPath = IndexPath(row: 0, section: 0)
                 self.myCollectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.left, animated: true)
@@ -120,8 +128,6 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
         let lat = UserDefaults.standard.value(forKey: "lat") as! Double
         let long = UserDefaults.standard.value(forKey: "long") as! Double
         
-       
-        
         let dict = [
             "city_slug" : Singleton.instance.citySlug ,
             "category_id" : Singleton.instance.category_id,
@@ -131,6 +137,8 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
             "current_longitude" : long
             ] as [String : Any]
         
+        print("Location Dict", dict)
+        
         ServiceHelper.sharedInstance.createPostRequest(isShowHud: true, params: dict as [String : AnyObject], apiName: "api/locations") { (response, error) in
             if error != nil {
                 MCCustomAlertController.alert(title: "", message: (error?.localizedDescription)!, buttons: ["OK"], tapBlock: { (action, index) in
@@ -139,11 +147,10 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
             }
             
             if (response != nil) {
-                
                 Singleton.instance.location_open_hours = "0"
                 Singleton.instance.distanceFilter = ""
                 Singleton.instance.category_id = ""
-                
+                self.searchTextField.text = ""
                 let responseJSON = JSON(response as Any)
                 print(responseJSON)
                 self.locationResponseData = responseJSON
@@ -200,6 +207,12 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
     
     @IBAction func filterButtonAction(_ sender: UIButton) {
         let filterVC = self.storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") as! FilterViewController
+        filterVC.isLocationFilter = true
+        
+        if valueSelected != "" {
+            filterVC.categoryName = valueSelected
+        }
+    
         self.present(filterVC, animated: true, completion: nil)
     }
     
@@ -216,26 +229,44 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
         let font : UIFont = UIFont.init(name: "Arial", size: 15.0)!
         let text = categoryMenu[indexPath.row]["name"].stringValue
         let width = UILabel.textWidth(font: font, text: text)
-        return CGSize(width: width + 35, height: 40)
+        return CGSize(width: width + 35, height: 50)
         
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-        selectedRow = indexPath.row
         
+        selectedRow = indexPath.row
         self.myCollectionView.reloadData()
+        self.valueSelected = categoryMenu[indexPath.row]["name"].stringValue
+        
+        
+        if Singleton.instance.filterSelectedValues.count != 0  {
+            for (index,_) in Singleton.instance.filterSelectedValues[1].enumerated() {
+                if categoryMenu[indexPath.row]["name"].stringValue == Singleton.instance.filterSelectedValues[1][index]["name"].stringValue {
+                    Singleton.instance.filterSelectedValues[1][index]["isSelected"] = true
+                } else {
+                    Singleton.instance.filterSelectedValues[1][index]["isSelected"] = false
+                }
+            }
+        }
+        
+        Singleton.instance.reloadIndex = indexPath.row
+        Singleton.instance.category_id = categoryMenu[indexPath.row]["id"].stringValue
         self.getLocationData(category_id:  categoryMenu[indexPath.row]["id"].stringValue, location_opening_hours: Singleton.instance.location_open_hours, distanceFilter: Singleton.instance.distanceFilter )
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCollectionViewCellID", for: indexPath) as! CategoryCollectionViewCell
         
-        cell.categoryButton.setTitle((categoryMenu[indexPath.row]["name"].stringValue).capitalized, for: .normal)
+    cell.categoryButton.setTitle((categoryMenu[indexPath.row]["name"].stringValue).uppercased(), for: .normal)
+        
+        
         if selectedRow == indexPath.item{
             cell.categoryButton.backgroundColor = UIColor.init(red: 255/255.0, green: 194/255.0, blue: 0/255.0, alpha: 1)
             cell.categoryButton.setTitleColor(UIColor.white, for: .normal)
         }else{
-            cell.categoryButton.backgroundColor =  UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.1)
+            cell.categoryButton.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             cell.categoryButton.setTitleColor(UIColor.black, for: .normal)
         }
         
@@ -245,6 +276,11 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
         return cell
         
     }
+    
+    
+    
+    
+    
 
 }
 
@@ -273,14 +309,13 @@ extension LocationsViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCellID") as! PostTableViewCell
        
-        let urlString = "http://83.137.194.211/stadtfalke" + locationData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
+        let urlString = "http://stadtfalke.com/" + locationData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
             locationData[indexPath.row]["logo_media_image"]["name"].stringValue
         
+        cell.iconImageView.sd_setImage(with: URL.init(string: urlString), placeholderImage: #imageLiteral(resourceName: "Square"), options: .lowPriority, completed: nil)
         
-        
-        print(urlString)
-        
-        cell.iconImageView.sd_setImage(with: URL.init(string: urlString), placeholderImage: UIImage.init(named: "Placeholder"), options: .lowPriority, completed: nil)
+        cell.iconImageView.layer.cornerRadius = 6
+        cell.iconImageView.clipsToBounds = true
         
         if locationData[indexPath.row]["distance"].stringValue == "" {
             cell.distanceLabel.text = "0.0" + "KM"
@@ -291,7 +326,6 @@ extension LocationsViewController : UITableViewDelegate, UITableViewDataSource {
         
         
         cell.postTitleLabel.text = locationData[indexPath.row]["name"].stringValue
-        
         
         if locationData[indexPath.row]["location_opening_hours"].stringValue == "geschlossen" {
             cell.dotImageView.backgroundColor = UIColor.red
@@ -311,10 +345,6 @@ extension LocationsViewController : UITableViewDelegate, UITableViewDataSource {
             "longi" : locationData[indexPath.row]["longitude"].stringValue,
             "id" : locationData[indexPath.row]["slug"].stringValue
             ] 
-        
-        
-        
-        print(dict)
         
         // post a notification
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "detailsLocation"), object: nil, userInfo: dict)

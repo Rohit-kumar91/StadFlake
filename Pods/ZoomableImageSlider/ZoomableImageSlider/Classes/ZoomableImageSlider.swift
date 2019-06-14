@@ -17,6 +17,7 @@ public class ZoomableImageSlider: UIPageViewController {
     
     init() {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        
     }
     
     required public init?(coder: NSCoder) {
@@ -42,6 +43,7 @@ public class ZoomableImageSlider: UIPageViewController {
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.view.backgroundColor =  #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         UIApplication.shared.isStatusBarHidden = true
     }
     
@@ -55,7 +57,7 @@ public class ZoomableImageSlider: UIPageViewController {
     
     func basicSetUp() {
         dataSource = self
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         
         
         // 1
@@ -101,6 +103,10 @@ public class ZoomableImageSlider: UIPageViewController {
     
     func getZoomedPhotoViewController(_ index: Int) -> ZoomedPhotoViewController?
     {
+        
+        
+        print(images,index)
+        
         let page = ZoomedPhotoViewController(pageViewController: self, index: index, imageUrl: images[index], totalImageCount: images.count)
         return page
     }

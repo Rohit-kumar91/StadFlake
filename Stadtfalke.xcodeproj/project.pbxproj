@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -32,7 +32,6 @@
 		1C0D9BD520D689D7002BF4B1 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D9BD420D689D7002BF4B1 /* FilterViewController.swift */; };
 		1C0D9BD720D68A6A002BF4B1 /* SingleLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D9BD620D68A6A002BF4B1 /* SingleLabelTableViewCell.swift */; };
 		1C0D9BD920D6922F002BF4B1 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D9BD820D6922F002BF4B1 /* AppConstant.swift */; };
-		1C0D9BDB20D69601002BF4B1 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D9BDA20D69601002BF4B1 /* TabBarViewController.swift */; };
 		1C6C7A2720D98BA5001BBD0F /* OffnungszitenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6C7A2520D98BA5001BBD0F /* OffnungszitenTableViewCell.swift */; };
 		1C6C7A2820D98BA5001BBD0F /* OffnungszitenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6C7A2620D98BA5001BBD0F /* OffnungszitenViewController.swift */; };
 		1C6C7A2A20D98C82001BBD0F /* MitteilungenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6C7A2920D98C82001BBD0F /* MitteilungenViewController.swift */; };
@@ -92,15 +91,21 @@
 		2BFDAD9620D9850200FF9587 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFDAD9520D9850100FF9587 /* LoginViewController.swift */; };
 		2BFEA526218CCA0C00F101A6 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFEA525218CCA0C00F101A6 /* LabelTableViewCell.swift */; };
 		585675914166FB407795C984 /* Pods_Stadtfalke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28BB7C98FF5395273EA5F64A /* Pods_Stadtfalke.framework */; };
-		B7524B50226E21C000ABDA4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7524B4F226E21C000ABDA4C /* GoogleService-Info.plist */; };
+		B70A2B49229D9B3D0026A04B /* ABeeZee-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B70A2B48229D9B3D0026A04B /* ABeeZee-Italic.ttf */; };
+		B71627C6229901A20004433D /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71627C5229901A20004433D /* MenuTableViewCell.swift */; };
+		B725D4AB22B025990090F7FD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B725D4AA22B025990090F7FD /* TabBarController.swift */; };
 		B7524B52226E32D600ABDA4C /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7524B51226E32D600ABDA4C /* Singleton.swift */; };
 		B7ABC5B92274CBD00047A1CE /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABC5B82274CBD00047A1CE /* MenuCell.swift */; };
 		B7ABC5BB2274CC5F0047A1CE /* MenuTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABC5BA2274CC5F0047A1CE /* MenuTimeViewController.swift */; };
+		B7B8945522AB598F0049831C /* store.svg in Resources */ = {isa = PBXBuildFile; fileRef = B7B8945422AB598F0049831C /* store.svg */; };
+		B7B8945722AB59990049831C /* plate-fork-and-knife.svg in Resources */ = {isa = PBXBuildFile; fileRef = B7B8945622AB59990049831C /* plate-fork-and-knife.svg */; };
+		B7B8945922AB59A40049831C /* earth.svg in Resources */ = {isa = PBXBuildFile; fileRef = B7B8945822AB59A40049831C /* earth.svg */; };
 		B7B9B3A8227F1D5F00BBB16B /* Datenschutz.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B9B3A7227F1D5F00BBB16B /* Datenschutz.swift */; };
 		E9403A0022303D900009FB79 /* AlamoFireWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94039FF22303D900009FB79 /* AlamoFireWrapper.swift */; };
 		F900F92B22801A92009EEFBA /* ParterWardenCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F900F92A22801A92009EEFBA /* ParterWardenCollectionViewCell.swift */; };
 		F900F92D22804427009EEFBA /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F900F92C22804427009EEFBA /* NotificationTableViewCell.swift */; };
 		F900F92F22804493009EEFBA /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F900F92E22804493009EEFBA /* NotificationViewController.swift */; };
+		F95B23FB229EBEA900446C44 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F95B23FA229EBEA900446C44 /* GoogleService-Info.plist */; };
 		F9DF007C2281B3F5005EC634 /* unCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = F9DF007A2281B3EC005EC634 /* unCheck.png */; };
 		F9DF007D2281B3F6005EC634 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = F9DF007B2281B3EE005EC634 /* check.png */; };
 /* End PBXBuildFile section */
@@ -132,7 +137,6 @@
 		1C0D9BD420D689D7002BF4B1 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		1C0D9BD620D68A6A002BF4B1 /* SingleLabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLabelTableViewCell.swift; sourceTree = "<group>"; };
 		1C0D9BD820D6922F002BF4B1 /* AppConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
-		1C0D9BDA20D69601002BF4B1 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		1C6C7A2520D98BA5001BBD0F /* OffnungszitenTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffnungszitenTableViewCell.swift; sourceTree = "<group>"; };
 		1C6C7A2620D98BA5001BBD0F /* OffnungszitenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffnungszitenViewController.swift; sourceTree = "<group>"; };
 		1C6C7A2920D98C82001BBD0F /* MitteilungenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MitteilungenViewController.swift; sourceTree = "<group>"; };
@@ -200,11 +204,16 @@
 		2BFC0F7B21039A760081BC2F /* ServiceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceHelper.swift; sourceTree = "<group>"; };
 		2BFDAD9520D9850100FF9587 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2BFEA525218CCA0C00F101A6 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
+		B70A2B48229D9B3D0026A04B /* ABeeZee-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ABeeZee-Italic.ttf"; sourceTree = "<group>"; };
+		B71627C5229901A20004433D /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
+		B725D4AA22B025990090F7FD /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		B7524B4C226E172700ABDA4C /* Stadtfalke.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stadtfalke.entitlements; sourceTree = "<group>"; };
-		B7524B4F226E21C000ABDA4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B7524B51226E32D600ABDA4C /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
 		B7ABC5B82274CBD00047A1CE /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		B7ABC5BA2274CC5F0047A1CE /* MenuTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTimeViewController.swift; sourceTree = "<group>"; };
+		B7B8945422AB598F0049831C /* store.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = store.svg; sourceTree = "<group>"; };
+		B7B8945622AB59990049831C /* plate-fork-and-knife.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "plate-fork-and-knife.svg"; sourceTree = "<group>"; };
+		B7B8945822AB59A40049831C /* earth.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = earth.svg; sourceTree = "<group>"; };
 		B7B9B3A7227F1D5F00BBB16B /* Datenschutz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datenschutz.swift; sourceTree = "<group>"; };
 		DF8FF17CED00024B891791DD /* Pods-Stadtfalke.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stadtfalke.release.xcconfig"; path = "Target Support Files/Pods-Stadtfalke/Pods-Stadtfalke.release.xcconfig"; sourceTree = "<group>"; };
 		E94039FF22303D900009FB79 /* AlamoFireWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamoFireWrapper.swift; sourceTree = "<group>"; };
@@ -212,6 +221,7 @@
 		F900F92A22801A92009EEFBA /* ParterWardenCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParterWardenCollectionViewCell.swift; sourceTree = "<group>"; };
 		F900F92C22804427009EEFBA /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		F900F92E22804493009EEFBA /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		F95B23FA229EBEA900446C44 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F9DF007A2281B3EC005EC634 /* unCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unCheck.png; sourceTree = "<group>"; };
 		F9DF007B2281B3EE005EC634 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -246,6 +256,7 @@
 		0740A1C620E2806800880897 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B70A2B48229D9B3D0026A04B /* ABeeZee-Italic.ttf */,
 				0740A1C720E2806800880897 /* abeezee.regular.ttf */,
 			);
 			path = fonts;
@@ -299,10 +310,14 @@
 		1C7CDEA920D01E09009275E0 /* Stadtfalke */ = {
 			isa = PBXGroup;
 			children = (
+				B725D4AA22B025990090F7FD /* TabBarController.swift */,
+				B7B8945422AB598F0049831C /* store.svg */,
+				B7B8945822AB59A40049831C /* earth.svg */,
+				B7B8945622AB59990049831C /* plate-fork-and-knife.svg */,
+				F95B23FA229EBEA900446C44 /* GoogleService-Info.plist */,
 				F9DF007A2281B3EC005EC634 /* unCheck.png */,
 				F9DF007B2281B3EE005EC634 /* check.png */,
 				B7524B4C226E172700ABDA4C /* Stadtfalke.entitlements */,
-				B7524B4F226E21C000ABDA4C /* GoogleService-Info.plist */,
 				2B0783FC215640FC004C2A22 /* MCCustomAlertController.swift */,
 				F900F92A22801A92009EEFBA /* ParterWardenCollectionViewCell.swift */,
 				F900F92C22804427009EEFBA /* NotificationTableViewCell.swift */,
@@ -316,6 +331,7 @@
 				1C89D16220E6C6DF0027AE2C /* AboutUSTableViewCell.swift */,
 				1C89D16120E6C6DF0027AE2C /* AboutUsViewController.swift */,
 				B7ABC5BA2274CC5F0047A1CE /* MenuTimeViewController.swift */,
+				B71627C5229901A20004433D /* MenuTableViewCell.swift */,
 				1CF7BE9F20E56F7200D5B731 /* LocationsListViewController.swift */,
 				1C7CDEAA20D01E09009275E0 /* AppDelegate.swift */,
 				1C98CD1420E2C5D7002DC449 /* TPKeyboardAvoiding */,
@@ -342,7 +358,6 @@
 				1C0D9BD620D68A6A002BF4B1 /* SingleLabelTableViewCell.swift */,
 				1C0BAAB120D63766004CFB58 /* PostTableViewCell.swift */,
 				1C0D9BD820D6922F002BF4B1 /* AppConstant.swift */,
-				1C0D9BDA20D69601002BF4B1 /* TabBarViewController.swift */,
 				0709BA1720D7CFC400326001 /* DatenschutzViewController.swift */,
 				1CD6411720D839A0004FD19E /* PartnerWerdenViewController.swift */,
 				1CD6411520D82F5B004FD19E /* DieIdeeViewController.swift */,
@@ -550,13 +565,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BFC0F8321039A760081BC2F /* Info-tvOS.plist in Resources */,
+				B7B8945722AB59990049831C /* plate-fork-and-knife.svg in Resources */,
 				0740A1C820E2806B00880897 /* abeezee.regular.ttf in Resources */,
-				B7524B50226E21C000ABDA4C /* GoogleService-Info.plist in Resources */,
 				2BCE0DFF21C80AA800D66C2A /* MyWebViewViewController.xib in Resources */,
 				F9DF007C2281B3F5005EC634 /* unCheck.png in Resources */,
+				B7B8945522AB598F0049831C /* store.svg in Resources */,
 				1C7CDEB520D01E0B009275E0 /* LaunchScreen.storyboard in Resources */,
 				1C7CDEB220D01E0B009275E0 /* Assets.xcassets in Resources */,
+				F95B23FB229EBEA900446C44 /* GoogleService-Info.plist in Resources */,
+				B7B8945922AB59A40049831C /* earth.svg in Resources */,
 				2B9B321E20E54C9F0040448F /* TabViewViewController.xib in Resources */,
+				B70A2B49229D9B3D0026A04B /* ABeeZee-Italic.ttf in Resources */,
 				F9DF007D2281B3F6005EC634 /* check.png in Resources */,
 				1C7CDEB020D01E09009275E0 /* Main.storyboard in Resources */,
 			);
@@ -571,18 +590,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Stadtfalke/Pods-Stadtfalke-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-Stadtfalke/Pods-Stadtfalke-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-Stadtfalke/Pods-Stadtfalke-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -612,36 +624,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Stadtfalke/Pods-Stadtfalke-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/CarbonKit/CarbonKit.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/LGSideMenuController/LGSideMenuController.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/ZoomableImageSlider/ZoomableImageSlider.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Stadtfalke/Pods-Stadtfalke-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CarbonKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGSideMenuController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZoomableImageSlider.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Stadtfalke/Pods-Stadtfalke-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -713,6 +700,7 @@
 				2BFC0F8921039A760081BC2F /* RappleAIUIs.swift in Sources */,
 				1C0BAAAE20D63723004CFB58 /* SpecialViewController.swift in Sources */,
 				1C98CD1D20E2C5D7002DC449 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				B71627C6229901A20004433D /* MenuTableViewCell.swift in Sources */,
 				1C0BAAB220D63766004CFB58 /* PostTableViewCell.swift in Sources */,
 				0709BA2720D7EEBB00326001 /* YSViewExtension.swift in Sources */,
 				2B0783FD215640FC004C2A22 /* MCCustomAlertController.swift in Sources */,
@@ -748,7 +736,6 @@
 				1C98CD2020E2C5D7002DC449 /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				1C6C7A2A20D98C82001BBD0F /* MitteilungenViewController.swift in Sources */,
 				1C9AD61420DAC21000175990 /* ProgramDetailViewController.swift in Sources */,
-				1C0D9BDB20D69601002BF4B1 /* TabBarViewController.swift in Sources */,
 				2BFC0F8B21039A760081BC2F /* AnalyticsHelper.swift in Sources */,
 				0709BA2520D7EEBB00326001 /* YSStringExtension.swift in Sources */,
 				2B08FAA52180DFE3009F71B8 /* FilterInfo.swift in Sources */,
@@ -757,6 +744,7 @@
 				1C89D16620E6D06B0027AE2C /* ItemSelectionViewController.swift in Sources */,
 				2B059FC7216FA395008400B5 /* BTNTableViewCell.swift in Sources */,
 				2BFC0F8521039A760081BC2F /* ImageFilter.swift in Sources */,
+				B725D4AB22B025990090F7FD /* TabBarController.swift in Sources */,
 				F900F92F22804493009EEFBA /* NotificationViewController.swift in Sources */,
 				2BFC0F8021039A760081BC2F /* UIButton+AlamofireImage.swift in Sources */,
 				077858D420D916DA00CF556A /* MASliderSpringAnimator.swift in Sources */,
@@ -909,8 +897,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Stadtfalke/Stadtfalke.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Piriyatharsan Parameswaran (8HPDN4SETK)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EK6EX3R22R;
 				INFOPLIST_FILE = Stadtfalke/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -922,7 +910,7 @@
 				PRODUCT_MODULE_NAME = stadtfalke;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = StadFalke;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -934,8 +922,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Stadtfalke/Stadtfalke.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Piriyatharsan Parameswaran (8HPDN4SETK)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EK6EX3R22R;
 				INFOPLIST_FILE = Stadtfalke/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -947,7 +935,7 @@
 				PRODUCT_MODULE_NAME = stadtfalke;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = StadFalke;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

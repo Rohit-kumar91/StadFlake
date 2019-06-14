@@ -79,7 +79,11 @@ class DieIdeeViewController: UIViewController, UITableViewDelegate, UITableViewD
    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelTableViewCell") as! LabelTableViewCell
-        cell.textViewText.text = textData.htmlToString
+        
+         cell.textViewText.setHTMLFromStringInWhite(text: textData)
+        //cell.textViewText.text = textData.htmlToString
+        //cell.textViewText.setHTMLFromString(text: textData)
+        
         return cell
     }
 
@@ -156,12 +160,18 @@ class DieIdeeViewController: UIViewController, UITableViewDelegate, UITableViewD
 }
 
 extension String {
+    
+    
+    
     var htmlToAttributedString: NSAttributedString? {
-        guard let data = data(using: .utf8) else { return NSAttributedString() }
         do {
-            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return try NSAttributedString(data: data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!,
+                                          options: [.documentType: NSAttributedString.DocumentType.html,
+                                                    .characterEncoding: String.Encoding.utf8.rawValue],
+                                          documentAttributes: nil)
         } catch {
-            return NSAttributedString()
+            print("error: ", error)
+            return nil
         }
     }
     var htmlToString: String {
