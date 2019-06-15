@@ -190,18 +190,8 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     @IBAction func notificationButtonAction(_ sender: UIButton) {
-        self.view.endEditing(true)
-        let sideMenuController = APPDELEGATE.sideMenuController
-        guard let centeralNavController = sideMenuController.centerViewController as? UINavigationController else {
-            return
-        }
-        centeralNavController.popToRootViewController(animated: false)
-        
-        let mitteilungenVC = self.storyboard?.instantiateViewController(withIdentifier: "MitteilungenViewControllerID") as! MitteilungenViewController
-        centeralNavController.setViewControllers([mitteilungenVC], animated: false)
-        sideMenuController.closeSlider(.left, animated: true) { (_) in
-            //do nothing
-        }
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "NotificationViewController") as! NotificationViewController
+        self.present(vc, animated: true, completion: nil)
     }
 
     
