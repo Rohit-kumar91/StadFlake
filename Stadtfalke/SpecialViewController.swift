@@ -37,6 +37,7 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
     var search:String=""
     var hideViews = Bool()
     var viewDidloadCheck = true
+    @IBOutlet weak var hconstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +98,7 @@ class SpecialViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func hideSearchBar() {
+        hconstraint.constant = 0
         searchBarStack.isHidden = true
         filter.isHidden = true
         notificationButton.isHidden = true
