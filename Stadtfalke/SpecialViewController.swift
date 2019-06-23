@@ -411,14 +411,14 @@ extension SpecialViewController : UITableViewDelegate, UITableViewDataSource {
         
         // "http://stadtfalke.com/" 
         
-        let imageUrl = "http://stadtfalke.com" + specialsData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
+        let imageUrl = "https://www.stadtfalke.com" + specialsData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
             specialsData[indexPath.row]["logo_media_image"]["name"].stringValue
         
         
         cell.postImageView.sd_setImage(with: URL.init(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
         
         
-        let logoImage = "http://stadtfalke.com/" + specialsData[indexPath.row]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
+        let logoImage = "https://www.stadtfalke.com/" + specialsData[indexPath.row]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
             specialsData[indexPath.row]["location_info"]["logo_media_image"]["name"].stringValue
         
         

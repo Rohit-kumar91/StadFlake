@@ -15,7 +15,7 @@ final class ServiceHelper {
 //     let baseURL = "http://meclub.powerupcloud.com/"
 //     let baseURL = "http://meclub-puc.powerupcloud.com/"
       // let baseURL =  "http://stadtfalke.com//public/"
-    let baseURL =  "http://stadtfalke.com/"
+    let baseURL =  "https://www.stadtfalke.com/"
     
     // Specifying the Headers we need
     class var sharedInstance: ServiceHelper {
@@ -81,6 +81,9 @@ final class ServiceHelper {
         }
         
         let url = self.baseURL + apiName
+        
+        print("url7878",url)
+        
         let parameterDict = params as NSDictionary
         logInfo(message: "\n\n Request URL  >>>>>>\(url)")
         logInfo(message: "\n\n Request Parameters >>>>>>\n\(parameterDict)")

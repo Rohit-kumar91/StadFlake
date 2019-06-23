@@ -411,6 +411,7 @@ extension AppDelegate  {
         ServiceHelper.sharedInstance.createPostRequest(isShowHud: true, params: param as [String : AnyObject], apiName: "api/device/add") { (response, error) in
             
             if error != nil {
+                
                 MCCustomAlertController.alert(title: "", message: (error?.localizedDescription)!, buttons: ["OK"], tapBlock: { (action, index) in
                     //
                 })
@@ -429,6 +430,8 @@ extension AppDelegate  {
                 
                 
             } else {
+                
+                
                 MCCustomAlertController.alert(title: "", message: "Something went wrong.", buttons: ["OK"], tapBlock: { (action, index) in
                     //
                 })

@@ -274,5 +274,5 @@ var filterFiltrenArr: [Int] = []
 var filterZeigeArr: [Int] = []
 
 //baseUrl
-let baseURL: String = "http://stadtfalke.com/"
+let baseURL: String = "https://www.stadtfalke.com/"
 

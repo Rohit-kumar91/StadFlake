@@ -62,7 +62,7 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
         cell.notificationTittle.text = responseData[indexPath.row]["offer_info"]["name"].stringValue
         cell.notificationby.text = responseData[indexPath.row]["description"].stringValue
         
-        let imageUrl = "http://stadtfalke.com/" + responseData[indexPath.row]["offer_info"]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
+        let imageUrl = "https://www.stadtfalke.com/" + responseData[indexPath.row]["offer_info"]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
             responseData[indexPath.row]["offer_info"]["location_info"]["logo_media_image"]["name"].stringValue
         cell.imageNotification.sd_setImage(with: URL.init(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
         

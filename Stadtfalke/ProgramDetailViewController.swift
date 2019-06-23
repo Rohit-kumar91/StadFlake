@@ -242,13 +242,13 @@ extension ProgramDetailViewController:UITableViewDelegate,UITableViewDataSource{
         cell.locationNameLabel.text = "@\(specialDetails["location_info"]["name"].stringValue)"
         
 
-        let imageUrl = "http://stadtfalke.com/" + specialDetails["logo_media_image"]["path"].stringValue + "/" +
+        let imageUrl = "https://www.stadtfalke.com/" + specialDetails["logo_media_image"]["path"].stringValue + "/" +
             specialDetails["logo_media_image"]["name"].stringValue
         
         cell.posterImageView.sd_setImage(with: URL.init(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
         
         
-        let logoImage = "http://stadtfalke.com/" + specialDetails["location_logo_media_img"]["path"].stringValue + "/" + specialDetails["location_logo_media_img"]["name"].stringValue
+        let logoImage = "https://www.stadtfalke.com/" + specialDetails["location_logo_media_img"]["path"].stringValue + "/" + specialDetails["location_logo_media_img"]["name"].stringValue
         cell.logoIconImageView.sd_setImage(with: URL.init(string: logoImage), placeholderImage:#imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)
         
         cell.logoIconImageView.layer.cornerRadius = 6

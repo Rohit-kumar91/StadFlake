@@ -215,7 +215,7 @@ extension YourCityViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCellID") as! PostTableViewCell
         
-        let urlString = "http://stadtfalke.com/" + subscriptionArray[indexPath.row]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
+        let urlString = "https://www.stadtfalke.com/" + subscriptionArray[indexPath.row]["location_info"]["logo_media_image"]["path"].stringValue + "/" +
             subscriptionArray[indexPath.row]["location_info"]["logo_media_image"]["name"].stringValue
         
         cell.iconImageView.sd_setImage(with: URL.init(string: urlString), placeholderImage: #imageLiteral(resourceName: "Square"), options: .continueInBackground, completed: nil)

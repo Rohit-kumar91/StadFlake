@@ -123,7 +123,7 @@ extension PartnerWerdenViewController: UICollectionViewDataSource, UICollectionV
         
         cell.partnerName.text = reponseData[indexPath.item]["name"].stringValue
         
-        let imageUrl = "http://stadtfalke.com/" + reponseData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
+        let imageUrl = "https://www.stadtfalke.com/" + reponseData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
             reponseData[indexPath.row]["logo_media_image"]["name"].stringValue
         cell.parterImage.sd_setImage(with: URL.init(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: nil)
         

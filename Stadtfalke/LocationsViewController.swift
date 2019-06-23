@@ -299,7 +299,7 @@ extension LocationsViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCellID") as! PostTableViewCell
        
-        let urlString = "http://stadtfalke.com/" + locationData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
+        let urlString = "https://www.stadtfalke.com/" + locationData[indexPath.row]["logo_media_image"]["path"].stringValue + "/" +
             locationData[indexPath.row]["logo_media_image"]["name"].stringValue
         
         cell.iconImageView.sd_setImage(with: URL.init(string: urlString), placeholderImage: #imageLiteral(resourceName: "Square"), options: .lowPriority, completed: nil)
